@@ -1,0 +1,112 @@
+body, html {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #ffffff;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+  background-color: #d3faeb;
+}
+
+.navbar .logo {
+  height: 50px;
+  width: auto;
+}
+
+.navbar .btn-login {
+  padding: 10px 25px;
+  border: none;
+  border-radius: 6px;
+  background-color: #18c783;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+  width: auto;             /* ensure it doesn't stretch */
+  flex-shrink: 0;          /* prevent shrinking */
+  font-size: 14px; 
+}
+
+.navbar .btn-login:hover {
+  background-color: #13a770;
+}
+
+/* Hero Section */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 100px 20px;
+  background-color: #18c783;
+  color: #ffffff;
+}
+
+.hero h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.btn-get-started {
+  padding: 15px 30px;
+  border: none;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #18c783;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.btn-get-started:hover {
+  background-color: #f0f0f0;
+}
+
+/* Features Section */
+.features {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: #d3faeb;
+  color: #545454;
+}
+
+.features h3 {
+  font-size: 2rem;
+  margin-bottom: 40px;
+}
+
+.feature-cards {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.card {
+  background-color: #ffffff;
+  padding: 30px 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  width: 250px;
+}
+
+.card h4 {
+  margin-bottom: 15px;
+  color: #18c783;
+}
+
+.card p {
+  color: #545454;
+  font-size: 14px;
+}
