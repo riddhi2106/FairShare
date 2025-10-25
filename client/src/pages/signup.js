@@ -16,7 +16,7 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/signup", formData);
+      const res = await axios.post("http://localhost:8787/api/auth/signup", formData);
       alert("Account created successfully! You can now log in.");
       navigate("/login");
     } catch (err) {
@@ -26,18 +26,17 @@ export default function Signup() {
   };
 
   const handleGoogleSignup = () => {
-    window.location.href = "http://localhost:5000/api/auth/google"; // redirect to Google OAuth
+    window.location.href = "http://localhost:8787/api/auth/google"; // redirect to Google OAuth
   };
 
   return (
     <div className="signup-container">
       <div className="signup-box">
-        {/* Fairshare logo */}
+
         <img src={logo} alt="Fairshare Logo" className="auth-logo" />
 
         <h2>Sign Up</h2>
 
-        {/* Email/Password signup */}
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -68,13 +67,11 @@ export default function Signup() {
 
         <div className="divider">or</div>
 
-        {/* Google signup */}
         <button className="btn-google" onClick={handleGoogleSignup}>
           <img src={googleIcon} alt="Google" />
           Sign up with Google
         </button>
 
-        {/* Login link */}
         <div className="signup-text">
           Already have an account? <span className="link" onClick={() => navigate("/login")}>Login</span>
         </div>

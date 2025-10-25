@@ -1,5 +1,4 @@
 const express = require("express");
-const cors = require("cors");
 const session = require("express-session");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
@@ -15,15 +14,21 @@ const app = express();
 // Connect to MongoDB Atlas
 connectDB();
 
+// ✅ Robust CORS middleware for Express 5
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+
+  // Respond immediately to preflight requests
+  if (req.method === "OPTIONS") return res.sendStatus(200);
+
+  next();
+});
+
 // Middleware
 app.use(express.json());
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-  })
-);
-
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "supersecret",
@@ -35,7 +40,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Routes
+// ✅ Register your routes AFTER CORS setup
 app.use("/api/auth", authRoutes);
 
 // Google OAuth callback
@@ -43,12 +48,9 @@ app.get(
   "/api/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
-    // Generate JWT for the logged-in user
     const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
-
-    // Redirect to frontend with token
     res.redirect(`http://localhost:3000/dashboard?token=${token}`);
   }
 );
@@ -59,5 +61,5 @@ app.get("/", (req, res) => {
 });
 
 // Start server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8787;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

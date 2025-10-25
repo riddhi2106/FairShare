@@ -30,7 +30,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", formData);
+      const res = await axios.post("http://localhost:8787/api/auth/login", formData);
       login({ ...res.data.user, token: res.data.token });
       navigate("/dashboard");
     } catch (err) {
@@ -40,7 +40,7 @@ export default function Login() {
 
   const handleGoogleLogin = () => {
     // Redirect to backend Google OAuth route
-    window.location.href = "http://localhost:5000/api/auth/google";
+    window.location.href = "http://localhost:8787/api/auth/google";
   };
 
   return (
