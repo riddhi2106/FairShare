@@ -19,19 +19,16 @@ export default function Dashboard() {
         localStorage.setItem("token", token);
 
         try {
-          // Fetch real user info from backend
-          const res = await fetch("http://localhost:5000/api/auth/me", {
+          const res = await fetch("http://localhost:8787/api/auth/me", {
             headers: { Authorization: `Bearer ${token}` },
           });
           if (!res.ok) throw new Error("Failed to fetch user");
-
           const data = await res.json();
-          login({ ...data, token }); // update auth context
+          login({ ...data, token });
         } catch (err) {
           console.error("Failed to load user:", err);
         }
 
-        // Clean URL
         navigate("/dashboard", { replace: true });
       }
       setLoading(false);
@@ -40,54 +37,67 @@ export default function Dashboard() {
     fetchUser();
   }, [location.search, navigate, login]);
 
-  const handleCreateGroup = () => {
-    alert("Create Group clicked!");
-  };
-
-  const handleJoinGroup = () => {
-    alert("Join Group clicked!");
-  };
-
   const handleLogout = async () => {
     try {
-      // Log out from backend (for Google users)
-      await fetch("http://localhost:5000/api/auth/logout", {
+      await fetch("http://localhost:8787/api/auth/logout", {
         method: "GET",
         credentials: "include",
       });
     } catch (err) {
-      console.error("Google logout failed", err);
+      console.error("Logout failed", err);
     }
 
-    logout(); // clear frontend state
-    navigate("/"); // redirect to homepage
+    logout();
+    navigate("/");
   };
 
-  if (loading) return <h1>Loading...</h1>;
-  if (!user) return <h1>Please log in</h1>;
+  if (loading) return <h1 className="loading-text">Loading...</h1>;
+  if (!user) return <h1 className="loading-text">Please log in</h1>;
 
   return (
     <div className="dashboard-wrapper">
       {/* Navbar */}
       <nav className="dashboard-navbar">
-        <img src={logo} alt="Logo" className="navbar-logo" />
-        <button className="btn-logout" onClick={handleLogout}>
-          Logout
-        </button>
+        <div className="navbar-left">
+          <img src={logo} alt="FairShare Logo" className="navbar-logo" />
+        </div>
+
+        <div className="navbar-links">
+          <button onClick={() => navigate("/")} className="nav-btn">
+            Home
+          </button>
+          <button onClick={() => navigate("/groups")} className="nav-btn">
+            Groups
+          </button>
+          <button onClick={() => navigate("/expenses")} className="nav-btn">
+            Expenses
+          </button>
+          <button onClick={() => navigate("/profile")} className="nav-btn">
+            Profile
+          </button>
+        </div>
+
+        <div className="navbar-right">
+          <button className="btn-logout" onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
       </nav>
 
       {/* Main content */}
       <div className="dashboard-container">
-        <h1>Welcome, {user.name}!</h1>
-        <p>Manage your shared bills and groups below:</p>
+        <div className="dashboard-card">
+          <h1>Welcome, {user.name}!</h1>
+          <p>Start managing your shared expenses and groups with ease.</p>
 
-        <div className="dashboard-buttons">
-          <button className="btn-action" onClick={handleCreateGroup}>
-            Create Group
-          </button>
-          <button className="btn-action" onClick={handleJoinGroup}>
-            Join Group
-          </button>
+          <div className="dashboard-buttons">
+            <button className="btn-action" onClick={() => navigate("/groups/create")}>
+              Create Group
+            </button>
+            <button className="btn-action-outline" onClick={() => navigate("/groups/join")}>
+              Join Group
+            </button>
+          </div>
         </div>
       </div>
     </div>

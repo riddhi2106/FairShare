@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/signup.css";
-import logo from "../assets/logo.png"; // Fairshare logo
+import logo from "../assets/logo.png"; // FairShare logo
 import googleIcon from "../assets/google-icon.png"; // Google icon
 
 export default function Signup() {
@@ -16,7 +16,7 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:8787/api/auth/signup", formData);
+      await axios.post("http://localhost:8787/api/auth/signup", formData);
       alert("Account created successfully! You can now log in.");
       navigate("/login");
     } catch (err) {
@@ -26,22 +26,22 @@ export default function Signup() {
   };
 
   const handleGoogleSignup = () => {
-    window.location.href = "http://localhost:8787/api/auth/google"; // redirect to Google OAuth
+    window.location.href = "http://localhost:8787/api/auth/google";
   };
 
   return (
     <div className="signup-container">
       <div className="signup-box">
+        <img src={logo} alt="FairShare Logo" className="signup-logo" />
 
-        <img src={logo} alt="Fairshare Logo" className="auth-logo" />
-
-        <h2>Sign Up</h2>
+        <h2>Create your FairShare account</h2>
+        <p className="signup-subtext">Join groups, track expenses, and settle bills effortlessly.</p>
 
         <form onSubmit={handleSubmit}>
           <input
             type="text"
             name="name"
-            placeholder="Name"
+            placeholder="Full Name"
             value={formData.name}
             onChange={handleChange}
             required
@@ -49,7 +49,7 @@ export default function Signup() {
           <input
             type="email"
             name="email"
-            placeholder="Email"
+            placeholder="Email Address"
             value={formData.email}
             onChange={handleChange}
             required
@@ -57,7 +57,7 @@ export default function Signup() {
           <input
             type="password"
             name="password"
-            placeholder="Password"
+            placeholder="Create Password"
             value={formData.password}
             onChange={handleChange}
             required
@@ -69,11 +69,14 @@ export default function Signup() {
 
         <button className="btn-google" onClick={handleGoogleSignup}>
           <img src={googleIcon} alt="Google" />
-          Sign up with Google
+          Continue with Google
         </button>
 
         <div className="signup-text">
-          Already have an account? <span className="link" onClick={() => navigate("/login")}>Login</span>
+          Already have an account?{" "}
+          <span className="link" onClick={() => navigate("/login")}>
+            Log In
+          </span>
         </div>
       </div>
     </div>
