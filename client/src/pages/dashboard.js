@@ -91,11 +91,11 @@ export default function Dashboard() {
           <p>Start managing your shared expenses and groups with ease.</p>
 
           <div className="dashboard-buttons">
-            <button className="btn-action" onClick={() => navigate("/groups/create")}>
-              Create Group
+            <button className="btn-action" onClick={() => navigate("/groups")}>
+              Create/Join Group
             </button>
-            <button className="btn-action-outline" onClick={() => navigate("/groups/join")}>
-              Join Group
+            <button className="btn-action-outline" onClick={() => navigate("/expenses")}>
+              Add Expense
             </button>
           </div>
         </div>

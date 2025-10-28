@@ -6,6 +6,7 @@ const groupSchema = new mongoose.Schema({
   name: { type: String, required: true, trim: true },
   description: { type: String, default: 'No description provided.' },
   members: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // Track who created the group
   createdAt: { type: Date, default: Date.now }
 });
 

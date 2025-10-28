@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 const Group = require('../models/Group');
 const Expense = require('../models/Expense');
-const auth = require('../middleware/authMiddleware');
+const auth = require('../middleware/authmiddleware');
 
 // Helper: basic validation for ObjectId-like strings (not strict)
 function isValidId(id) {
@@ -17,7 +17,12 @@ router.post('/create', auth, async (req, res) => {
     const { name, description } = req.body;
     if (!name) return res.status(400).json({ message: 'Group name is required.' });
 
-    const group = new Group({ name, description, members: [req.user.id] });
+    const group = new Group({ 
+      name, 
+      description, 
+      members: [req.user.id],
+      createdBy: req.user.id 
+    });
     await group.save();
     res.status(201).json({ message: 'Group created successfully.', group });
   } catch (err) {
@@ -89,16 +94,62 @@ router.post('/expenses/add', auth, async (req, res) => {
   }
 });
 
-// Get all expenses for a group (populates payer name if available)
+// Get all expenses for a group (populates payer name and share user data)
+// NOTE: This must come BEFORE /:id route to avoid route conflicts
 router.get('/:id/expenses', auth, async (req, res) => {
   try {
     const gid = req.params.id;
     if (!isValidId(gid)) return res.status(400).json({ message: 'Invalid group id.' });
 
-    const expenses = await Expense.find({ groupId: gid }).populate('paidBy', 'name');
-    res.json({ expenses });
+    const expenses = await Expense.find({ groupId: gid })
+      .populate('paidBy', 'name')
+      .populate('shares.userId', 'name');
+    
+    const group = await Group.findById(gid);
+    
+    res.json({ expenses, group });
   } catch (err) {
     res.status(500).json({ message: 'Server error fetching expenses.', error: err.message });
+  }
+});
+
+// Get a single group by ID
+// NOTE: This must come AFTER /:id/expenses to avoid route conflicts
+router.get('/:id', auth, async (req, res) => {
+  try {
+    const gid = req.params.id;
+    if (!isValidId(gid)) return res.status(400).json({ message: 'Invalid group id.' });
+
+    const group = await Group.findById(gid).populate('members', 'name email');
+    if (!group) return res.status(404).json({ message: 'Group not found.' });
+
+    res.json({ group });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error fetching group.', error: err.message });
+  }
+});
+
+// Mark a share as paid/settled
+router.put('/expenses/:expenseId/settle/:shareIndex', auth, async (req, res) => {
+  try {
+    const { expenseId, shareIndex } = req.params;
+    if (!isValidId(expenseId)) return res.status(400).json({ message: 'Invalid expense id.' });
+
+    const expense = await Expense.findById(expenseId);
+    if (!expense) return res.status(404).json({ message: 'Expense not found.' });
+
+    const idx = parseInt(shareIndex);
+    if (idx < 0 || idx >= expense.shares.length) {
+      return res.status(400).json({ message: 'Invalid share index.' });
+    }
+
+    // Toggle the paid status
+    expense.shares[idx].paid = !expense.shares[idx].paid;
+    await expense.save();
+
+    res.json({ message: 'Payment status updated.', expense });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error updating payment.', error: err.message });
   }
 });
 

@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 
 const shareSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  amount: { type: Number, required: true, min: 0 }
+  amount: { type: Number, required: true, min: 0 },
+  paid: { type: Boolean, default: false } // Track if this share has been settled
 }, { _id: false });
 
 const expenseSchema = new mongoose.Schema({
