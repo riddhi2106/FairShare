@@ -1,0 +1,16 @@
+{
+  "short_name": "FairShare",
+  "name": "FairShare",
+  "icons": [
+    {
+      "src": "logo.jpg",
+      "type": "image/jpg",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#1a73e8",
+  "background_color": "#ffffff",
+  "description": "Expense-splitting made easy."
+}

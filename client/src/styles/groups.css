@@ -1,0 +1,73 @@
+.groups-page {
+  background-color: #d3faeb;
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
+.groups-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.group-card {
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.group-card h2 {
+  color: #18c783;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #18c783;
+}
+
+.form-button {
+  padding: 12px 30px;
+  border-radius: 8px;
+  border: none;
+  background-color: #18c783;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.form-button:hover {
+  background-color: #13a770;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(24, 199, 131, 0.3);
+}
+
+.form-divider {
+  margin: 30px 0;
+  border-top: 2px solid #e0e0e0;
+}
+
+@media (max-width: 768px) {
+  .groups-container {
+    grid-template-columns: 1fr;
+  }
+}
+

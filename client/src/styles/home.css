@@ -1,0 +1,271 @@
+/* ---------------------- Global ---------------------- */
+.home-page {
+  font-family: "Poppins", sans-serif;
+  background: #fff;
+  color: #333;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 700;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ---------------------- Header ---------------------- */
+.brand-gradient {
+  background: linear-gradient(135deg, #13a770 0%, #18c783 50%, #d3faeb 100%);
+  color: white;
+  padding-bottom: 60px;
+}
+
+/* ---------------------- Navbar ---------------------- */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 60px;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo {
+  width: 100px;
+  height: 55px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.brand-name {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.nav-links {
+  display: flex;
+  gap: 40px;
+}
+
+.nav-links a {
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  transition: 0.2s ease;
+}
+
+.nav-links a:hover {
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.signin-btn {
+  background: white;
+  color: #128e63;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.signin-btn:hover {
+  background: #f2fff8;
+  transform: scale(1.05);
+}
+
+/* ---------------------- Hero ---------------------- */
+.hero {
+  text-align: center;
+  padding: 100px 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  margin-bottom: 25px;
+  color: white;
+}
+
+.hero p {
+  font-size: 1.3rem;
+  color: #f1fdf8;
+  margin-bottom: 40px;
+}
+
+.cta-btn {
+  background: white;
+  color: #11845d;
+  padding: 16px 36px;
+  border: none;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.cta-btn:hover {
+  background: #f5fff8;
+  transform: scale(1.05);
+}
+
+/* ---------------------- Features ---------------------- */
+.features-section {
+  padding: 100px 60px;
+  background: linear-gradient(to bottom, #f9f9f9, #fff);
+  text-align: center;
+}
+
+.features-section h2 {
+  font-size: 2.8rem;
+  margin-bottom: 10px;
+  color: #222;
+}
+
+.features-section p {
+  font-size: 1.3rem;
+  color: #555;
+  margin-bottom: 60px;
+}
+
+.features-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 40px;
+}
+
+.feature-card {
+  background: white;
+  border-radius: 25px;
+  padding: 40px 30px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.icon {
+  width: 80px;
+  height: 80px;
+  margin: auto;
+  border-radius: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 36px;
+  color: white;
+  margin-bottom: 25px;
+}
+
+.icon.green {
+  background: linear-gradient(to bottom right, #34d399, #059669);
+}
+
+.icon.blue {
+  background: linear-gradient(to bottom right, #60a5fa, #2563eb);
+}
+
+.icon.purple {
+  background: linear-gradient(to bottom right, #a78bfa, #7c3aed);
+}
+
+.feature-card h3 {
+  font-size: 1.6rem;
+  margin-bottom: 15px;
+  color: #222;
+}
+
+.feature-card p {
+  color: #555;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+/* ---------------------- Team ---------------------- */
+.team-section {
+  background: linear-gradient(135deg, #d3faeb 0%, #18c783 50%, #13a770 100%);
+  color: #222;
+  padding: 100px 60px;
+  text-align: center;
+}
+
+.team-section h2 {
+  font-size: 2.8rem;
+  margin-bottom: 60px;
+}
+
+.team-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+}
+
+.team-card {
+  background: white;
+  padding: 40px 30px;
+  border-radius: 25px;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.1);
+  transition: 0.3s ease;
+}
+
+.team-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.15);
+}
+
+.team-card h4 {
+  font-size: 1.6rem;
+  color: #111;
+  margin-bottom: 10px;
+}
+
+.team-card p {
+  color: #555;
+  font-size: 1.05rem;
+}
+
+/* ---------------------- Footer ---------------------- */
+footer {
+  background: #111827;
+  color: #ddd;
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 1.05rem;
+}
+
+/* ---------------------- Responsive ---------------------- */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .hero h1 {
+    font-size: 2.4rem;
+  }
+
+  .features-section,
+  .team-section {
+    padding: 70px 30px;
+  }
+}
