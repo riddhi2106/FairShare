@@ -50,6 +50,7 @@ export default function Dashboard() {
             <p>Start managing your shared expenses and groups with ease.</p>
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         <div className="navbar-links">
           <button onClick={() => navigate("/")} className="nav-btn">
             Home
@@ -86,6 +87,8 @@ export default function Dashboard() {
               Add Expense
             </button>
 =======
+=======
+>>>>>>> Stashed changes
             <div className="dashboard-buttons">
               <button className="btn-action" onClick={() => navigate("/groups")}>
                 Create/Join Group
@@ -105,6 +108,9 @@ export default function Dashboard() {
                 Go to Bills Section
               </button>
             </div>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
           </div>
         </div>
