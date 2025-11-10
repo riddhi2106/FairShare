@@ -1,15 +1,43 @@
 import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
+import Navbar from '../components/Navbar';
 import '../styles/expenses.css';
 
 const ExpensePage = () => {
+  const [searchParams] = useSearchParams();
+  const groupIdFromUrl = searchParams.get('groupId');
+  
   const [form, setForm] = useState({
-    groupId: '', description: '', totalAmount: '', splitType: 'equal', paidBy: ''
+    groupId: groupIdFromUrl || '', description: '', totalAmount: '', splitType: 'equal', paidBy: ''
   });
   const [groupMembers, setGroupMembers] = useState([]);
   const [customShares, setCustomShares] = useState([]); // Array of {userId, amount}
+  const [currentUserId, setCurrentUserId] = useState(null);
 
   const token = localStorage.getItem('token');
+
+  // Update form when URL parameter changes
+  useEffect(() => {
+    if (groupIdFromUrl) {
+      setForm(prev => ({ ...prev, groupId: groupIdFromUrl }));
+    }
+  }, [groupIdFromUrl]);
+
+  // Get current user ID from token
+  useEffect(() => {
+    if (token) {
+      try {
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+        const decoded = JSON.parse(jsonPayload);
+        setCurrentUserId(decoded.id);
+      } catch (e) {
+        console.error('Error decoding token:', e);
+      }
+    }
+  }, [token]);
 
   // Fetch group members when group ID changes
   useEffect(() => {
@@ -30,9 +58,33 @@ const ExpensePage = () => {
     };
 
     fetchGroupMembers();
+    
+    // Auto-refresh every 5 seconds to catch new members
+    const interval = setInterval(() => {
+      if (form.groupId && form.groupId.length >= 12) {
+        fetchGroupMembers();
+      }
+    }, 5000);
+
+    return () => clearInterval(interval);
   }, [form.groupId, token]);
 
   const handle = e => setForm({ ...form, [e.target.name]: e.target.value });
+
+  const refreshMembers = async () => {
+    if (form.groupId && form.groupId.length >= 12) {
+      try {
+        const res = await axios.get(`http://localhost:8787/api/groups/${form.groupId}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setGroupMembers(res.data.group?.members || []);
+        alert(`Refreshed! Group now has ${res.data.group?.members?.length || 0} members.`);
+      } catch (err) {
+        console.error('Error fetching group:', err);
+        alert('Error refreshing group members');
+      }
+    }
+  };
 
   const handleMemberSelection = (memberId, amount) => {
     const existing = customShares.findIndex(s => s.userId === memberId);
@@ -49,6 +101,24 @@ const ExpensePage = () => {
 
   const removeMemberShare = (memberId) => {
     setCustomShares(customShares.filter(s => s.userId !== memberId));
+  };
+
+  const splitEquallyAmongSelected = () => {
+    if (customShares.length === 0) {
+      alert('Please select at least one person first!');
+      return;
+    }
+    if (!form.totalAmount || parseFloat(form.totalAmount) <= 0) {
+      alert('Please enter a valid total amount first!');
+      return;
+    }
+
+    const equalAmount = (parseFloat(form.totalAmount) / customShares.length).toFixed(2);
+    const updatedShares = customShares.map(share => ({
+      ...share,
+      amount: parseFloat(equalAmount)
+    }));
+    setCustomShares(updatedShares);
   };
 
   const submit = async () => {
@@ -70,29 +140,101 @@ const ExpensePage = () => {
         headers: { Authorization: `Bearer ${token}` }
       });
       alert(res.data.message);
-      // Reset form
-      setForm({ groupId: '', description: '', totalAmount: '', splitType: 'equal', paidBy: '' });
+      
+      // Save the current group ID to keep it for next expense
+      const currentGroupId = form.groupId;
+      
+      // Reset form but keep the group ID
+      setForm({ 
+        groupId: currentGroupId, 
+        description: '', 
+        totalAmount: '', 
+        splitType: 'equal', 
+        paidBy: '' 
+      });
       setCustomShares([]);
-      setGroupMembers([]);
+      // Don't reset groupMembers so they're still visible
     } catch (err) {
       alert(err.response?.data?.message || 'Error adding expense');
     }
   };
 
   return (
-    <div className="expenses-page">
+    <>
+      <Navbar />
+      <div className="expenses-page">
+        {/* User ID Display */}
+        {currentUserId && (
+          <div style={{ maxWidth: '800px', margin: '20px auto', padding: '15px', backgroundColor: '#e3f2fd', borderRadius: '8px', border: '2px solid #1a73e8' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <p style={{ margin: '0 0 5px 0', fontSize: '14px', color: '#666' }}>Your User ID (use this as "Paid By" if you paid):</p>
+                <p style={{ margin: 0, fontSize: '16px', fontWeight: '600', color: '#1a73e8', wordBreak: 'break-all' }}>
+                  {currentUserId}
+                </p>
+              </div>
+              <button 
+                onClick={() => {
+                  navigator.clipboard.writeText(currentUserId);
+                  alert('User ID copied to clipboard!');
+                }}
+                style={{
+                  padding: '10px 20px',
+                  borderRadius: '6px',
+                  border: '1px solid #1a73e8',
+                  background: '#1a73e8',
+                  color: 'white',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                Copy ID
+              </button>
+            </div>
+          </div>
+        )}
+        
       <div className="expenses-container">
         <div className="expense-card">
           <h2>Add Expense</h2>
           
           <div className="form-group">
             <label>Group ID *</label>
-            <input 
-              name="groupId" 
-              placeholder="Enter group ID" 
-              value={form.groupId}
-              onChange={handle} 
-            />
+            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+              <input 
+                name="groupId" 
+                placeholder="Enter group ID" 
+                value={form.groupId}
+                onChange={handle}
+                style={{ flex: 1 }}
+              />
+              {form.groupId && form.groupId.length >= 12 && (
+                <button
+                  type="button"
+                  onClick={refreshMembers}
+                  style={{
+                    padding: '10px 15px',
+                    borderRadius: '6px',
+                    border: '1px solid #18c783',
+                    background: 'white',
+                    color: '#18c783',
+                    cursor: 'pointer',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    whiteSpace: 'nowrap'
+                  }}
+                >
+                  🔄 Refresh
+                </button>
+              )}
+            </div>
+            {groupMembers.length > 0 && (
+              <p style={{ margin: '8px 0 0 0', fontSize: '13px', color: '#666' }}>
+                Current members: {groupMembers.length}
+              </p>
+            )}
           </div>
 
           <div className="form-group">
@@ -138,9 +280,30 @@ const ExpensePage = () => {
           {form.splitType === 'custom' && form.groupId && (
             <div className="form-group">
               <div className="custom-shares-section">
-                <p style={{ marginBottom: '15px', fontWeight: '600', color: '#18c783' }}>
-                  Select who should pay and how much each person owes:
-                </p>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+                  <p style={{ margin: 0, fontWeight: '600', color: '#18c783' }}>
+                    Select who should pay and how much each person owes:
+                  </p>
+                  {customShares.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={splitEquallyAmongSelected}
+                      style={{
+                        padding: '8px 15px',
+                        borderRadius: '6px',
+                        border: '1px solid #18c783',
+                        background: '#18c783',
+                        color: 'white',
+                        cursor: 'pointer',
+                        fontSize: '13px',
+                        fontWeight: '600',
+                        whiteSpace: 'nowrap'
+                      }}
+                    >
+                      ➗ Split Equally
+                    </button>
+                  )}
+                </div>
                 
                 {groupMembers.length > 0 ? (
                   <>
@@ -224,6 +387,7 @@ const ExpensePage = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

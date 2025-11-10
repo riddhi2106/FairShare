@@ -8,20 +8,16 @@ import googleIcon from "../assets/google-icon.png"; // Google icon
 
 export default function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const { login } = useAuth();
+  const { login, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Handle token from Google OAuth redirect
+  // No longer need to handle token here, AuthProvider does it
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const token = params.get("token");
-    if (token) {
-      // You can also decode JWT to get user info here if needed
-      login({ token });
+    if (user) {
       navigate("/dashboard");
     }
-  }, [location.search, login, navigate]);
+  }, [user, navigate]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

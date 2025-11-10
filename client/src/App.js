@@ -9,8 +9,8 @@ import ExpensePage from "./pages/ExpensePage";
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
+    <Router>
+      <AuthProvider>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
@@ -19,8 +19,8 @@ function App() {
           <Route path="/groups" element={<GroupPage />} />
           <Route path="/expenses" element={<ExpensePage />} />
         </Routes>
-      </Router>
-    </AuthProvider>
+      </AuthProvider>
+    </Router>
   );
 }
 

@@ -94,6 +94,63 @@ router.post('/expenses/add', auth, async (req, res) => {
   }
 });
 
+// Mark a share as paid/settled
+// NOTE: This must come BEFORE the /:id routes to avoid conflicts
+router.put('/expenses/:expenseId/settle/:shareIndex', auth, async (req, res) => {
+  try {
+    const { expenseId, shareIndex } = req.params;
+    if (!isValidId(expenseId)) return res.status(400).json({ message: 'Invalid expense id.' });
+
+    const expense = await Expense.findById(expenseId);
+    if (!expense) return res.status(404).json({ message: 'Expense not found.' });
+
+    const idx = parseInt(shareIndex);
+    if (idx < 0 || idx >= expense.shares.length) {
+      return res.status(400).json({ message: 'Invalid share index.' });
+    }
+
+    // Toggle the paid status
+    expense.shares[idx].paid = !expense.shares[idx].paid;
+    await expense.save();
+
+    // Re-populate the user data after saving
+    await expense.populate('paidBy', 'name');
+    await expense.populate('shares.userId', 'name');
+
+    res.json({ message: 'Payment status updated.', expense });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error updating payment.', error: err.message });
+  }
+});
+
+// Delete an expense
+// NOTE: This must come BEFORE the /:id routes to avoid conflicts
+router.delete('/expenses/:expenseId', auth, async (req, res) => {
+  try {
+    const { expenseId } = req.params;
+    if (!isValidId(expenseId)) return res.status(400).json({ message: 'Invalid expense id.' });
+
+    const expense = await Expense.findById(expenseId);
+    if (!expense) return res.status(404).json({ message: 'Expense not found.' });
+
+    // Check if user is the group creator or the person who paid
+    const group = await Group.findById(expense.groupId);
+    if (!group) return res.status(404).json({ message: 'Group not found.' });
+
+    const isCreator = group.createdBy.toString() === req.user.id;
+    const isPayer = expense.paidBy.toString() === req.user.id;
+
+    if (!isCreator && !isPayer) {
+      return res.status(403).json({ message: 'Only group creator or expense payer can delete this expense.' });
+    }
+
+    await Expense.findByIdAndDelete(expenseId);
+    res.json({ message: 'Expense deleted successfully.' });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error deleting expense.', error: err.message });
+  }
+});
+
 // Get all expenses for a group (populates payer name and share user data)
 // NOTE: This must come BEFORE /:id route to avoid route conflicts
 router.get('/:id/expenses', auth, async (req, res) => {
@@ -105,7 +162,7 @@ router.get('/:id/expenses', auth, async (req, res) => {
       .populate('paidBy', 'name')
       .populate('shares.userId', 'name');
     
-    const group = await Group.findById(gid);
+    const group = await Group.findById(gid).populate('members', 'name email');
     
     res.json({ expenses, group });
   } catch (err) {
@@ -126,30 +183,6 @@ router.get('/:id', auth, async (req, res) => {
     res.json({ group });
   } catch (err) {
     res.status(500).json({ message: 'Server error fetching group.', error: err.message });
-  }
-});
-
-// Mark a share as paid/settled
-router.put('/expenses/:expenseId/settle/:shareIndex', auth, async (req, res) => {
-  try {
-    const { expenseId, shareIndex } = req.params;
-    if (!isValidId(expenseId)) return res.status(400).json({ message: 'Invalid expense id.' });
-
-    const expense = await Expense.findById(expenseId);
-    if (!expense) return res.status(404).json({ message: 'Expense not found.' });
-
-    const idx = parseInt(shareIndex);
-    if (idx < 0 || idx >= expense.shares.length) {
-      return res.status(400).json({ message: 'Invalid share index.' });
-    }
-
-    // Toggle the paid status
-    expense.shares[idx].paid = !expense.shares[idx].paid;
-    await expense.save();
-
-    res.json({ message: 'Payment status updated.', expense });
-  } catch (err) {
-    res.status(500).json({ message: 'Server error updating payment.', error: err.message });
   }
 });
 

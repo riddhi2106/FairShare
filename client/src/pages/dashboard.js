@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/authcontext";
+import Navbar from "../components/Navbar";
 import "../styles/dashboard.css";
-import logo from "../assets/logo.png";
 
 export default function Dashboard() {
-  const { user, login, logout } = useAuth();
+  const { user, login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [loading, setLoading] = useState(true);
@@ -37,31 +37,19 @@ export default function Dashboard() {
     fetchUser();
   }, [location.search, navigate, login]);
 
-  const handleLogout = async () => {
-    try {
-      await fetch("http://localhost:8787/api/auth/logout", {
-        method: "GET",
-        credentials: "include",
-      });
-    } catch (err) {
-      console.error("Logout failed", err);
-    }
-
-    logout();
-    navigate("/");
-  };
-
   if (loading) return <h1 className="loading-text">Loading...</h1>;
   if (!user) return <h1 className="loading-text">Please log in</h1>;
 
   return (
-    <div className="dashboard-wrapper">
-      {/* Navbar */}
-      <nav className="dashboard-navbar">
-        <div className="navbar-left">
-          <img src={logo} alt="FairShare Logo" className="navbar-logo" />
-        </div>
+    <>
+      <Navbar />
+      <div className="dashboard-wrapper">
+        <div className="dashboard-container">
+          <div className="dashboard-card">
+            <h1>Welcome, {user.name}!</h1>
+            <p>Start managing your shared expenses and groups with ease.</p>
 
+<<<<<<< Updated upstream
         <div className="navbar-links">
           <button onClick={() => navigate("/")} className="nav-btn">
             Home
@@ -97,9 +85,30 @@ export default function Dashboard() {
             <button className="btn-action-outline" onClick={() => navigate("/expenses")}>
               Add Expense
             </button>
+=======
+            <div className="dashboard-buttons">
+              <button className="btn-action" onClick={() => navigate("/groups")}>
+                Create/Join Group
+              </button>
+              <button
+                className="btn-action-outline"
+                onClick={() => navigate("/expenses")}
+              >
+                Add Expense
+              </button>
+              {/* ✅ New button to go directly to Bills page */}
+              <button
+                className="btn-action"
+                onClick={() => navigate("/bills")}
+                style={{ backgroundColor: "#2bb673", color: "white" }}
+              >
+                Go to Bills Section
+              </button>
+            </div>
+>>>>>>> Stashed changes
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

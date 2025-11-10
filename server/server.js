@@ -30,6 +30,7 @@ app.use((req, res, next) => {
 
 // Middleware
 app.use(express.json());
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "supersecret",
@@ -53,7 +54,7 @@ app.get(
     const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
-    res.redirect(`http://localhost:3000/dashboard?token=${token}`);
+  res.redirect(`http://localhost:3000/dashboard?token=${token}`);
   }
 );
 
