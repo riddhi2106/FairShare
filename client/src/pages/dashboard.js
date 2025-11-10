@@ -49,46 +49,6 @@ export default function Dashboard() {
             <h1>Welcome, {user.name}!</h1>
             <p>Start managing your shared expenses and groups with ease.</p>
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-        <div className="navbar-links">
-          <button onClick={() => navigate("/")} className="nav-btn">
-            Home
-          </button>
-          <button onClick={() => navigate("/groups")} className="nav-btn">
-            Groups
-          </button>
-          <button onClick={() => navigate("/expenses")} className="nav-btn">
-            Expenses
-          </button>
-          <button onClick={() => navigate("/profile")} className="nav-btn">
-            Profile
-          </button>
-        </div>
-
-        <div className="navbar-right">
-          <button className="btn-logout" onClick={handleLogout}>
-            Logout
-          </button>
-        </div>
-      </nav>
-
-      {/* Main content */}
-      <div className="dashboard-container">
-        <div className="dashboard-card">
-          <h1>Welcome, {user.name}!</h1>
-          <p>Start managing your shared expenses and groups with ease.</p>
-
-          <div className="dashboard-buttons">
-            <button className="btn-action" onClick={() => navigate("/groups")}>
-              Create/Join Group
-            </button>
-            <button className="btn-action-outline" onClick={() => navigate("/expenses")}>
-              Add Expense
-            </button>
-=======
-=======
->>>>>>> Stashed changes
             <div className="dashboard-buttons">
               <button className="btn-action" onClick={() => navigate("/groups")}>
                 Create/Join Group
@@ -108,10 +68,6 @@ export default function Dashboard() {
                 Go to Bills Section
               </button>
             </div>
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
           </div>
         </div>
       </div>
