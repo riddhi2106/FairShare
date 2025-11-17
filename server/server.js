@@ -7,6 +7,8 @@ require("dotenv").config();
 const connectDB = require("./config/db"); // MongoDB connection
 const authRoutes = require("./routes/authroutes");
 const groupRoutes = require("./routes/groupRoutes");
+const billRoutes = require("./routes/billRoutes");
+const pdfRoutes = require("./routes/pdfRoutes");
 require("./config/passport"); // GoogleStrategy setup
 
 // Initialize Express
@@ -45,6 +47,8 @@ app.use(passport.session());
 // ✅ Register your routes AFTER CORS setup
 app.use("/api/auth", authRoutes);
 app.use("/api/groups", groupRoutes);
+app.use("/api/bills", billRoutes);
+app.use("/api/pdf", pdfRoutes);
 
 // Google OAuth callback
 app.get(
