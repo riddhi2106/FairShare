@@ -6,6 +6,7 @@ import Dashboard from "./pages/dashboard";
 import Home from "./pages/home";
 import GroupPage from "./pages/GroupPage";
 import ExpensePage from "./pages/ExpensePage";
+import BillsPage from "./pages/bills";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/groups" element={<GroupPage />} />
           <Route path="/expenses" element={<ExpensePage />} />
+          <Route path="/bills" element={<BillsPage />} />
         </Routes>
       </AuthProvider>
     </Router>
