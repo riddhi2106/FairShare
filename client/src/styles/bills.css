@@ -1,0 +1,172 @@
+/* ===== Bills Page Styling ===== */
+
+/* Mint background for entire page */
+body {
+  background-color: #dffaf1;
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Main container */
+.bill-container {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 2.5rem;
+  max-width: 700px;
+  margin: 3rem auto;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  color: #333;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Headings */
+.bill-container h2 {
+  color: #16a085;
+  font-weight: 700;
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.bill-container p {
+  color: #555;
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+}
+
+.bill-container h3 {
+  color: #138d75;
+  margin-bottom: 0.75rem;
+  margin-top: 2rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+/* Upload Form */
+.bill-upload-form {
+  background-color: #f9fdfb;
+  border-radius: 20px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.bill-upload-form input[type="text"] {
+  width: 80%;
+  padding: 10px 14px;
+  border: 1.5px solid #16a085;
+  border-radius: 10px;
+  outline: none;
+  font-size: 0.95rem;
+  transition: 0.2s ease;
+}
+
+.bill-upload-form input[type="text"]:focus {
+  border-color: #16a085;
+  box-shadow: 0 0 4px rgba(22, 160, 133, 0.4);
+}
+
+.bill-upload-form button {
+  background-color: #16a085;
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.25s ease;
+  font-size: 0.95rem;
+  width: fit-content;
+}
+
+.bill-upload-form button:hover {
+  background-color: #138d75;
+}
+
+/* Clean Scan Heading */
+.scan-heading {
+  margin-top: 1.5rem;
+  font-size: 1.2rem;
+  color: #16a085;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 0.75rem;
+}
+
+input[type="file"] {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+/* Upload Status */
+.status-message {
+  margin-top: 10px;
+  font-size: 0.95rem;
+}
+
+.status-message.success {
+  color: #16a085;
+}
+
+.status-message.error {
+  color: #e74c3c;
+}
+
+/* Bills List */
+.bills-list,
+.bills-list ul {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0;
+  text-align: left;
+}
+
+.bills-list li {
+  background: #f8fdfa;
+  border: 1px solid #d1f0e4;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  transition: 0.2s ease;
+}
+
+.bills-list li:hover {
+  background: #e8f9f1;
+}
+
+/* Timestamp */
+.bill-timestamp {
+  font-weight: 600;
+  color: #16a085;
+  margin-bottom: 0.4rem;
+  display: block;
+}
+
+/* Download Button */
+.download-btn {
+  background-color: #16a085;
+  color: white;
+  border: none;
+  padding: 12px 26px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  margin-top: 25px;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.download-btn:hover {
+  background-color: #138d75;
+}
+
+/* Small fade effect */
+.bill-container:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12);
+}

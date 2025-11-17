@@ -42,8 +42,10 @@ exports.login = async (req, res) => {
       return res.status(400).json({ message: "User not found. Please signup." });
     }
 
-    // ✅ Plain-text comparison
-    if (user.password !== password) {
+
+    // Use bcrypt comparison
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) {
       return res.status(400).json({ message: "Incorrect password." });
     }
 

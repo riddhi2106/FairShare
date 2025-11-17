@@ -6,6 +6,9 @@ require("dotenv").config();
 
 const connectDB = require("./config/db"); // MongoDB connection
 const authRoutes = require("./routes/authroutes");
+const groupRoutes = require("./routes/groupRoutes");
+const billRoutes = require("./routes/billRoutes");
+const pdfRoutes = require("./routes/pdfRoutes");
 require("./config/passport"); // GoogleStrategy setup
 
 // Initialize Express
@@ -29,6 +32,7 @@ app.use((req, res, next) => {
 
 // Middleware
 app.use(express.json());
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "supersecret",
@@ -42,6 +46,9 @@ app.use(passport.session());
 
 // ✅ Register your routes AFTER CORS setup
 app.use("/api/auth", authRoutes);
+app.use("/api/groups", groupRoutes);
+app.use("/api/bills", billRoutes);
+app.use("/api/pdf", pdfRoutes);
 
 // Google OAuth callback
 app.get(
@@ -51,7 +58,7 @@ app.get(
     const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
-    res.redirect(`http://localhost:3000/dashboard?token=${token}`);
+  res.redirect(`http://localhost:3000/dashboard?token=${token}`);
   }
 );
 
