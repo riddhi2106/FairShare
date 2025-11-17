@@ -1,30 +1,13 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-
-export default function BillsList() {
-  const [bills, setBills] = useState([]);
-
-  useEffect(() => {
-    const fetchBills = async () => {
-      try {
-        const res = await axios.get("http://localhost:8787/api/bills/all");
-        setBills(res.data.bills || []);
-      } catch (err) {
-        console.error("Fetch error:", err);
-      }
-    };
-    fetchBills();
-  }, []);
-
-  if (!bills.length) return <p>No bills found.</p>;
+export default function BillsList({ bills }) {
+  if (!bills || bills.length === 0) return <p>No bills found.</p>;
 
   return (
     <div>
       {bills.map((b) => (
-        <div key={b._id} style={{ marginBottom: 10 }}>
+        <div key={b._id} style={{ marginBottom: 10, padding: '10px', border: '1px solid #ddd', borderRadius: '5px' }}>
           <strong>{new Date(b.createdAt).toLocaleString()}</strong>
           <ul>
-            {b.items.map((it, i) => (
+            {b.items && b.items.map((it, i) => (
               <li key={i}>{it}</li>
             ))}
           </ul>

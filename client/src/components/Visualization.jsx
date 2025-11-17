@@ -2,39 +2,45 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
 
-export default function Visualization() {
+export default function Visualization({ bills }) {
   const [data, setData] = useState([]);
   const [itemsFlat, setItemsFlat] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await axios.get("http://localhost:8787/api/bills/all");
-      const bills = res.data.bills || [];
-      const items = bills.flatMap((b) => b.items || []);
-      setItemsFlat(items);
+    if (!bills || bills.length === 0) {
+      setData([]);
+      setItemsFlat([]);
+      return;
+    }
 
-      const freq = items.reduce((acc, it) => {
-        acc[it] = (acc[it] || 0) + 1;
-        return acc;
-      }, {});
-      setData(Object.entries(freq).map(([name, count]) => ({ name, count })));
-    };
-    fetchData();
-  }, []);
+    const items = bills.flatMap((b) => b.items || []);
+    setItemsFlat(items);
+
+    const freq = items.reduce((acc, it) => {
+      acc[it] = (acc[it] || 0) + 1;
+      return acc;
+    }, {});
+    setData(Object.entries(freq).map(([name, count]) => ({ name, count })));
+  }, [bills]);
 
   const handlePDF = async () => {
-    const res = await axios.post(
-      "http://localhost:8787/api/pdf/generatePDF",
-      { items: itemsFlat },
-      { responseType: "blob" }
-    );
+    try {
+      const res = await axios.post(
+        "http://localhost:8787/api/pdf/generatePDF",
+        { items: itemsFlat },
+        { responseType: "blob" }
+      );
 
-    const url = window.URL.createObjectURL(new Blob([res.data]));
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", "summary.pdf");
-    document.body.appendChild(link);
-    link.click();
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "summary.pdf");
+      document.body.appendChild(link);
+      link.click();
+    } catch (err) {
+      console.error("PDF error:", err);
+      alert("Error generating PDF");
+    }
   };
 
   return (
@@ -48,7 +54,7 @@ export default function Visualization() {
             <Tooltip />
             <Bar dataKey="count" fill="#82ca9d" />
           </BarChart>
-          <button onClick={handlePDF} style={{ marginTop: 20 }}>
+          <button onClick={handlePDF} style={{ marginTop: 20, padding: '10px 20px', cursor: 'pointer' }}>
             Generate PDF Summary
           </button>
         </>
