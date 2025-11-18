@@ -1,0 +1,135 @@
+
+/* Container for login page */
+.signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #d3faeb;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Login box */
+.signup-box {
+  background-color: #ffffff;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  width: 350px;
+  text-align: center;
+}
+
+/* Heading */
+.signup-box h2 {
+  margin-bottom: 25px;
+  color: #545454;
+  font-weight: 600;
+}
+
+/* Form inputs */
+.signup-box input {
+  width: 90%;
+  max-width: 300px;
+  padding: 12px 15px;
+  margin: 10px auto;
+  display: block;
+  border-radius: 8px;
+  border: 1px solid #545454;
+  outline: none;
+  font-size: 15px;
+}
+
+.signup-box input:focus {
+  border-color: #18c783;
+}
+
+/* Login/Sign Up button */
+.btn-signup {
+  width: 100%;
+  padding: 12px 0;
+  margin: 15px 0;
+  border: none;
+  border-radius: 8px;
+  background-color: #18c783;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-signup:hover {
+  background-color: #13a770;
+}
+
+/* Google Sign-In button */
+.btn-google {
+  width: 100%;
+  padding: 12px 0;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #545454;
+  background-color: #ffffff;
+  color: #545454;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn-google img {
+  height: 20px;
+  width: 20px;
+  object-fit: contain;
+}
+
+.btn-google:hover {
+  background-color: #f0f0f0;
+}
+
+/* Divider */
+.divider {
+  margin: 15px 0;
+  font-size: 14px;
+  color: #545454;
+}
+
+/* Signup/Login link */
+.login-text {
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.login-text .link {
+  color: #18c783;
+  cursor: pointer;
+  font-weight: 600;
+  margin-left: 5px;
+}
+
+.login-text {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #555555;
+}
+
+.login-text a {
+  color: #18c783;
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 5px;
+}
+
+.login-text span:hover {
+  text-decoration: underline;
+}
+
+.signup-box > .auth-logo {
+  height: 60px !important;   /* fixed height */
+  width: auto !important;    /* maintain aspect ratio */
+  max-width: 150px !important; /* optional, prevents it from getting too wide */
+  display: block;
+  margin: 0 auto 20px;       /* centers logo with 20px space below */
+  object-fit: contain;       /* ensures proper scaling */
+}

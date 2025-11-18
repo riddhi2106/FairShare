@@ -1,0 +1,192 @@
+/* ===== Bills Page Styling ===== */
+
+/* Page background */
+body {
+  background-color: #dffaf1;
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Main container */
+.bill-container {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 2.5rem;
+  max-width: 850px;
+  margin: 3rem auto;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  color: #333;
+}
+
+/* Headings */
+.bill-container h2 {
+  color: #16a085;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+
+.bill-container p {
+  color: #555;
+  margin-bottom: 2rem;
+  font-size: 1.05rem;
+}
+
+.bill-container h3 {
+  color: #138d75;
+  margin-top: 2rem;
+  margin-bottom: 1.2rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* ===== Upload Form (Text Upload) ===== */
+
+.bill-upload-form {
+  background-color: #f6fffb;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Text input */
+.bill-upload-form input[type="text"] {
+  width: 100%;
+  padding: 15px 18px;
+  border: 2px solid #16a085;
+  border-radius: 14px;
+  outline: none;
+  font-size: 1rem;
+  transition: 0.25s ease;
+}
+
+.bill-upload-form input[type="text"]:focus {
+  border-color: #138d75;
+  box-shadow: 0 0 6px rgba(22, 160, 133, 0.4);
+}
+
+/* Large green Upload button */
+.bill-upload-form button {
+  width: 100%;
+  padding: 16px;
+  background-color: #16a085;
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.bill-upload-form button:hover {
+  background-color: #138d75;
+}
+
+/* ===== Scan a Bill Section ===== */
+
+.scan-heading {
+  color: #138d75;
+  font-size: 1.4rem;
+  margin-top: 2.2rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+/* Wrapper for scan upload */
+.file-upload-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Hide native file input */
+input[type="file"] {
+  display: none;
+}
+
+/* Custom scan upload button */
+.file-btn {
+  padding: 14px 30px;
+  background-color: #16a085;
+  border-radius: 14px;
+  color: white;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.file-btn:hover {
+  background-color: #138d75;
+}
+
+/* Filename text */
+.file-chosen {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+/* Status messages */
+.status-message {
+  font-size: 1rem;
+  margin-top: 10px;
+}
+
+.status-message.success {
+  color: #16a085;
+}
+
+.status-message.error {
+  color: #e74c3c;
+}
+
+/* ===== Bills List ===== */
+
+.bills-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 2rem;
+}
+
+.bills-list li {
+  background: #ffffff;
+  border: 1px solid #d1f0e4;
+  border-radius: 14px;
+  padding: 1.2rem 1.4rem;
+  margin-bottom: 15px;
+}
+
+.bill-timestamp {
+  font-size: 1rem;
+  color: #16a085;
+  font-weight: 600;
+  margin-bottom: 7px;
+}
+
+.bill-item {
+  font-size: 1rem;
+  list-style: none;
+  padding: 3px 0;
+}
+
+/* PDF Button */
+.download-btn {
+  background-color: #16a085;
+  padding: 14px 32px;
+  border-radius: 14px;
+  margin-top: 25px;
+  font-size: 1.2rem;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.download-btn:hover {
+  background-color: #138d75;
+}
